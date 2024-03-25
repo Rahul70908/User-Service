@@ -19,8 +19,6 @@ public class SignUpDto {
     @ValidateUserExists
     private String userName;
 
-    private String email;
-
     private String password;
 
     private String confirmPassword;

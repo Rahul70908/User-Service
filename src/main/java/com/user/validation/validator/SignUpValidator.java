@@ -16,14 +16,6 @@ public class SignUpValidator implements ConstraintValidator<ValidateSignupDetail
     @Override
     public boolean isValid(SignUpDto request, ConstraintValidatorContext context) {
         boolean hasError = false;
-        if (StringUtils.isBlank(request.getEmail())) {
-            hasError = true;
-            addConstraintViolation(context, "email", "Email is a Required Attribute");
-        } else if (!request.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            hasError = true;
-            addConstraintViolation(context, "email", "Enter a Valid Email");
-        }
-
         if (StringUtils.isNoneBlank(request.getPassword(), request.getConfirmPassword()) && (!request.getPassword().equals(request.getConfirmPassword()))) {
             hasError = true;
             addConstraintViolation(context, "passowrd", "Password doesn't match!!");

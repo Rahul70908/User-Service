@@ -2,6 +2,7 @@ package com.user.controller;
 
 import com.user.entity.User;
 import com.user.model.request.SignUpDto;
+import com.user.model.response.ApiResponse;
 import com.user.service.SignUpService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping("/register")
-    private ResponseEntity<User> signUp(@Valid @RequestBody SignUpDto signUpDto) {
+    private ResponseEntity<ApiResponse> signUp(@Valid @RequestBody SignUpDto signUpDto) {
         return ResponseEntity.ok(signUpService.register(signUpDto));
     }
 }
