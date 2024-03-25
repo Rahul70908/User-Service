@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: false
   application:
     name: User-Service
   datasource:
@@ -20,3 +22,6 @@ server:
     include-message: ALWAYS
   servlet:
     context-path: /user
+
+secret:
+  key: 34fe43a69ab37b47389929d8ad533ca7768ad775d4e364ef3a26bb030fe607f5

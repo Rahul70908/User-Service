@@ -1,4 +1,4 @@
-package com.user.entity;
+package com.user.model;
 
 
 public enum Role {

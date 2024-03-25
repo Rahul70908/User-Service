@@ -21,4 +21,6 @@ public class ApiResponse {
     private HttpStatus httpStatus;
 
     private Instant timeStamp;
+
+    private String token;
 }

@@ -1,7 +1,7 @@
 package com.user.service;
 
-import com.user.entity.Role;
 import com.user.entity.User;
+import com.user.model.Role;
 import com.user.model.request.SignUpDto;
 import com.user.model.response.ApiResponse;
 import com.user.repo.UserRepository;
@@ -22,6 +22,8 @@ public class SignUpService {
 
     private final UserRepository userRepository;
 
+    private final JwtService jwtService;
+
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse register(SignUpDto signUpDto) {
         User user = User.builder()
@@ -31,10 +33,12 @@ public class SignUpService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+        String token = jwtService.generateToken(user);
         return ApiResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(user.getUsername().concat(" Registered Successfully!!"))
                 .timeStamp(Instant.now())
+                .token(token)
                 .build();
     }
 }
