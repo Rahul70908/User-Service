@@ -22,11 +22,15 @@ public class LoginService {
 
     private final JwtService jwtService;
 
+    private final TokenService tokenService;
+
     public ApiResponse login(LoginDto loginDto) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUserName(), loginDto.getPassword()));
         var user = userRepository.findByName(loginDto.getUserName()).orElseThrow(() -> new UsernameNotFoundException("User Not Found!!!"));
         String token = jwtService.generateToken(user);
+        tokenService.revokeAllUserTokens(user);
+        tokenService.saveToken(user, token);
         return ApiResponse.builder()
                 .token(token)
                 .timeStamp(Instant.now())

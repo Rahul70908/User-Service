@@ -1,11 +1,11 @@
 package com.user.filter;
 
+import com.user.repo.TokenRepository;
 import com.user.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private TokenRepository tokenRepository;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -43,7 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userName = jwtService.extractUserName(jwtToken);
         if (StringUtils.isNotBlank(userName) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             var userDetails = this.userDetailsService.loadUserByUsername(userName);
-            if (jwtService.isTokenValid(jwtToken, userDetails)) {
+            var isTokenValid = tokenRepository.findByToken(jwtToken).map(
+                    t -> !t.isExpired() && !t.isRevoked()).orElse(false);
+            if (jwtService.isTokenValid(jwtToken, userDetails) && Boolean.TRUE.equals(isTokenValid)) {
                 var authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );

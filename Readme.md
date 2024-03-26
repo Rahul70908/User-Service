@@ -9,15 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is a basic User Service for providing basic SignUp and Register API's
 
+## [0.0.4-SNAPSHOT]
+
+- Added Logout Feature in User Service
+- Added Access and Refresh Token Feature in Login API
+- Added Proper Error Handling for token Verification
+
 ## [0.0.3-SNAPSHOT]
-- Added Login Functionality via Jwt Authentication
+
+- Added Login Feature via Jwt Authentication
 
 ## [0.0.2-SNAPSHOT]
+
 - Added Common API Response Structure
 - Implemented Transaction management for Register API
 - Removed Email Functionality
 - Fixed Roles issue in Register API
 
 ## [0.0.1-SNAPSHOT]
+
 - Initial Changes for User Service
 - Added Basic Register API with field Validations

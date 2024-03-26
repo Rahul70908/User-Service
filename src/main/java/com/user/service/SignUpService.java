@@ -22,23 +22,26 @@ public class SignUpService {
 
     private final UserRepository userRepository;
 
+    private final TokenService tokenService;
+
     private final JwtService jwtService;
 
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse register(SignUpDto signUpDto) {
-        User user = User.builder()
+        var user = User.builder()
                 .name(signUpDto.getUserName())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
                 .createdAt(LocalDateTime.now())
                 .role(Role.USER)
                 .build();
-        userRepository.save(user);
-        String token = jwtService.generateToken(user);
+        var savedUser = userRepository.save(user);
+        String jwtToken = jwtService.generateToken(user);
+        tokenService.saveToken(savedUser, jwtToken);
         return ApiResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(user.getUsername().concat(" Registered Successfully!!"))
                 .timeStamp(Instant.now())
-                .token(token)
+                .token(jwtToken)
                 .build();
     }
 }
