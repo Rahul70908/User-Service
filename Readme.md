@@ -12,7 +12,6 @@ This is a basic User Service for providing basic SignUp and Register API's
 ## [0.0.4-SNAPSHOT]
 
 - Added Logout Feature in User Service
-- Added Access and Refresh Token Feature in Login API
 - Added Proper Error Handling for token Verification
 
 ## [0.0.3-SNAPSHOT]
