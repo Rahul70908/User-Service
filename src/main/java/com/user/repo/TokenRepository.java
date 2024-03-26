@@ -2,7 +2,9 @@ package com.user.repo;
 
 import com.user.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +19,11 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
             """)
     List<Token> findAllValidTokensByUser(Long userId);
 
-    Optional<Token> findByToken(String token);
+    Optional<Token> findByUserToken(String token);
+
+    @Query(value = """
+            update token set expired=:expired and revoked=:revoked where id=:id
+            """, nativeQuery = true)
+    @Modifying
+    boolean updateTokenDetail(@Param("expired") boolean expired, @Param("revoked") boolean revoked, Long id);
 }

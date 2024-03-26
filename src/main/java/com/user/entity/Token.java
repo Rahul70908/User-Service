@@ -1,6 +1,7 @@
 package com.user.entity;
 
 import com.user.model.TokenType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,7 +28,8 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
+    @Column(name = "token")
+    private String userToken;
 
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;

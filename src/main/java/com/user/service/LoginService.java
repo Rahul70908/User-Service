@@ -1,6 +1,7 @@
 package com.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.user.entity.User;
 import com.user.exception.ApplicationException;
 import com.user.model.request.LoginDto;
 import com.user.model.response.ApiResponse;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -34,21 +36,15 @@ public class LoginService {
 
     private final ObjectMapper objectMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public ApiResponse login(LoginDto loginDto) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUserName(), loginDto.getPassword()));
         var user = userRepository.findByName(loginDto.getUserName()).orElseThrow(() -> new UsernameNotFoundException("User Not Found!!!"));
-        String token = jwtService.generateToken(user);
-        tokenService.revokeAllUserTokens(user);
-        tokenService.saveToken(user, token);
+        var token = jwtService.generateToken(user);
+        tokenOperations(user, token);
         var refreshToken = jwtService.generateRefreshToken(user);
-        return ApiResponse.builder()
-                .accessToken(token)
-                .refreshToken(refreshToken)
-                .timeStamp(Instant.now())
-                .httpStatus(HttpStatus.OK)
-                .message("Login Successful!!")
-                .build();
+        return formApiResponse(token, refreshToken, "Login Successful!!");
     }
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -64,17 +60,25 @@ public class LoginService {
                     .orElseThrow(() -> new ApplicationException("User Not Found!!"));
             if (jwtService.isTokenValid(refreshToken, userDetails)) {
                 var accessToken = jwtService.generateToken(userDetails);
-                tokenService.revokeAllUserTokens(userDetails);
-                tokenService.saveToken(userDetails, accessToken);
-                var apiResponse = ApiResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .timeStamp(Instant.now())
-                        .message("Token Generation Successfully!!!")
-                        .build();
-                objectMapper.writeValue(response.getOutputStream(), apiResponse);
+                tokenOperations(userDetails, accessToken);
+                objectMapper.writeValue(response.getOutputStream(),
+                        formApiResponse(accessToken, refreshToken, "Token Generation Successful!!!"));
             }
         }
+    }
 
+    private void tokenOperations(User user, String token) {
+        tokenService.revokeAllUserTokens(user);
+        tokenService.saveToken(user, token);
+    }
+
+    private static ApiResponse formApiResponse(String accessToken, String refreshToken, String message) {
+        return ApiResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .timeStamp(Instant.now())
+                .httpStatus(HttpStatus.OK)
+                .message(message)
+                .build();
     }
 }

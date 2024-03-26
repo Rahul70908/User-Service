@@ -16,7 +16,7 @@ public class TokenService {
     public void saveToken(User savedUser, String jwtToken) {
         var token = Token.builder()
                 .user(savedUser)
-                .token(jwtToken)
+                .userToken(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false).revoked(false)
                 .build();

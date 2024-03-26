@@ -25,7 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("/refreshToken")
-    private void refresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void refresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
         loginService.refreshToken(request, response);
     }
 }
