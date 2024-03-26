@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is a basic User Service for providing basic SignUp and Register API's
 
+## [0.0.5-SNAPSHOT]
+
+- Added Access and Refresh Token Feature
+
 ## [0.0.4-SNAPSHOT]
 
 - Added Logout Feature in User Service

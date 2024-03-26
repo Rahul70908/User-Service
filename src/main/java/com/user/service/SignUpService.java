@@ -36,12 +36,14 @@ public class SignUpService {
                 .build();
         var savedUser = userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
         tokenService.saveToken(savedUser, jwtToken);
         return ApiResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(user.getUsername().concat(" Registered Successfully!!"))
                 .timeStamp(Instant.now())
-                .token(jwtToken)
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }
