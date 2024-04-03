@@ -12,6 +12,7 @@ This is a basic User Service for providing basic SignUp and Register API's
 ## [1.0.1]
 
 - Added Cors Configuration
+- Added Docker Support
 
 ## [1.0.0] 26-03-2024
 
