@@ -38,13 +38,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         final var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String userName;
         if (Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         final String jwtToken = authHeader.substring(7);
-        userName = jwtService.extractUserName(jwtToken);
+        final String userName = jwtService.extractUserName(jwtToken);
         if (StringUtils.isNotBlank(userName) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails;
             try {

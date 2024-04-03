@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is a basic User Service for providing basic SignUp and Register API's
 
+## [2.0.0]
+- Added OAuth Implementation
+
 ## [1.0.1]
 
 - Added Cors Configuration
