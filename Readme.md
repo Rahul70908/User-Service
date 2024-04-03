@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is a basic User Service for providing basic SignUp and Register API's
 
+## [1.0.1]
+
+- Added Cors Configuration
+- Added Docker Compose Support
+
 ## [1.0.0] 26-03-2024
 
 ### Complete Login and SignUp Feature
+
 - Fixed SonarLint Issues
 - Fixed minor bugs
 - Error Handling enhancements

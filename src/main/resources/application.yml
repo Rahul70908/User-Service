@@ -3,20 +3,26 @@ spring:
     allow-bean-definition-overriding: false
   application:
     name: User-Service
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: START_AND_STOP
+      start:
+        command: UP
+      stop:
+        command: DOWN
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/userdb
-    username: root
+    url: jdbc:mysql://localhost:3306/userdb?useSSL=false
+    username: user
     password: root
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
     database: MYSQL
 server:
+  port: 8080
   error:
     include-binding-errors: ALWAYS
     include-message: ALWAYS
