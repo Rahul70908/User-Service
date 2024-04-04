@@ -1,37 +1,13 @@
 spring:
-  main:
-    allow-bean-definition-overriding: false
   application:
     name: User-Service
-  docker:
-    compose:
-      enabled: true
-      lifecycle-management: START_AND_STOP
-      start:
-        command: UP
-      stop:
-        command: DOWN
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/userdb?useSSL=false&allowPublicKeyRetrieval=true
-    username: user
-    password: root
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database: MYSQL
+  profiles:
+    active:
+  security:
+    oauth2:
+      client:
+
 server:
   port: 8080
-  error:
-    include-binding-errors: ALWAYS
-    include-message: ALWAYS
   servlet:
     context-path: /user
-
-jwt:
-  secret:
-    key: 34fe43a69ab37b47389929d8ad533ca7768ad775d4e364ef3a26bb030fe607f5
-    expiration: 86400000
-    refresh-token:
-      expiration: 604800000
