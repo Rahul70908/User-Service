@@ -3,19 +3,11 @@ spring:
     allow-bean-definition-overriding: false
   application:
     name: User-Service
-  docker:
-    compose:
-      enabled: true
-      lifecycle-management: START_AND_STOP
-      start:
-        command: UP
-      stop:
-        command: DOWN
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/userdb?useSSL=false
-    username: user
-    password: root
+    username: root
+    password: password
   jpa:
     hibernate:
       ddl-auto: update

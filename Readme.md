@@ -1,3 +1,4 @@
+
 <!-- markdownlint-disable-file no-duplicate-header -->
 
 # Changelog
@@ -8,6 +9,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 This is a basic User Service for providing basic SignUp and Register API's
+
+## [3.0.0]
+
+- Added Frontend Pages for Login And SignUp
+- Fixed Cors Forbidden Issue
+
+## [2.0.0]
+
+- Added OAuth Implementation
 
 ## [1.0.1]
 

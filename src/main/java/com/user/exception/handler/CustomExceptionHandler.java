@@ -4,6 +4,7 @@ import com.user.exception.ApplicationException;
 import com.user.exception.dto.ApiErrorResponse;
 import com.user.exception.dto.Errors;
 import com.user.exception.dto.Source;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @Component
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -50,7 +52,8 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleUserNotFoundException(Exception exception) {
+    public ResponseEntity<ApiErrorResponse> handleException(Exception exception) {
+        log.error(exception.getMessage());
         var apiErrorResponse = new ApiErrorResponse();
         apiErrorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         apiErrorResponse.setMessage("Something Went Wrong!!");
